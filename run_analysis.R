@@ -65,4 +65,7 @@ colnames(merged) <- c("subNum", "Activity", measurements)
 
 # turn activities & subjects into factors
 merged$Activity <- factor(merged$Activity, levels = act_labels[,1], labels = act_labels[,2])
-merged$subNum <
+merged$subNum <- as.factor(merged$subNum)
+merged.melted <- melt(merged, id = c("subNum", "Activity"))
+merged.mean <- dcast(merged.melted, subNum + Activity ~ variable, mean)
+write.table(merged.mean, "result.txt", row.names = FALSE, quote = FALSE)
